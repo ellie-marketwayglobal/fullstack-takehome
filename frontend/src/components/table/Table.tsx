@@ -101,7 +101,7 @@ const TableContent = memo(({ searchValue }: TableContentProps) => {
 
   return (
     <div className="bg-white rounded-lg shadow-lg">
-        <table className="w-full min-w-[600px] bg-white">
+      <table className="w-full min-w-[600px] bg-white">
         <thead className="bg-pacific text-white">
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
