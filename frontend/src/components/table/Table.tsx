@@ -15,6 +15,7 @@ import { PostCell } from "./cells/PostCell";
 
 import { TableFilters } from "./TableFilters";
 import { GenericCell } from "./cells/GenericCell";
+import { LoadingSpinner } from "../LoadingSpinner";
 
 const columnHelper = createColumnHelper<GetUsersQuery["users"][0]>();
 
@@ -86,8 +87,8 @@ const TableContent = memo(({ searchValue }: TableContentProps) => {
 
   if (loading)
     return (
-      <div className="bg-white rounded-lg shadow-lg p-8 text-center">
-        <div className="text-pacific text-lg">Loading users...</div>
+      <div className="bg-white rounded-lg shadow-lg p-12 text-center">
+        <LoadingSpinner message="Loading users..." />
       </div>
     );
 
@@ -100,14 +101,14 @@ const TableContent = memo(({ searchValue }: TableContentProps) => {
 
   return (
     <div className="bg-white rounded-lg shadow-lg">
-      <table className="w-full">
+        <table className="w-full min-w-[600px] bg-white">
         <thead className="bg-pacific text-white">
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
                 <th
                   key={header.id}
-                  className="px-4 py-3 text-left text-sm uppercase"
+                  className="px-3 py-3 text-left uppercase whitespace-nowrap"
                 >
                   {header.isPlaceholder
                     ? null
@@ -127,7 +128,7 @@ const TableContent = memo(({ searchValue }: TableContentProps) => {
               className="hover:bg-pacific-light transition-colors duration-150"
             >
               {row.getVisibleCells().map((cell) => (
-                <td key={cell.id} className="px-4 py-3 text-sm text-gray-900">
+                <td key={cell.id} className="px-3 py-3 text-gray-900">
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}
@@ -140,7 +141,7 @@ const TableContent = memo(({ searchValue }: TableContentProps) => {
               {footerGroup.headers.map((header) => (
                 <th
                   key={header.id}
-                  className="px-4 py-3 text-left text-sm text-pacific"
+                  className="px-3 py-3 text-left text-pacific whitespace-nowrap"
                 >
                   {header.isPlaceholder
                     ? null
@@ -162,7 +163,7 @@ export const Table = () => {
   const [searchValue, setSearchValue] = useState("");
 
   return (
-    <div className="p-6 max-w-5xl mx-auto space-y-4">
+    <div className="p-3 sm:p-6 max-w-7xl mx-auto space-y-4">
       <TableFilters searchValue={searchValue} setSearchValue={setSearchValue} />
       <TableContent searchValue={searchValue} />
     </div>

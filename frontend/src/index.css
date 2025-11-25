@@ -14,8 +14,18 @@
   color: #1a202c;
   background-color: #f7fafc;
 
+  /* Responsive base font size */
+  font-size: 12px; /* Mobile: 12px (text-xs) */
+
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Desktop and larger screens */
+@media (min-width: 640px) {
+  :root {
+    font-size: 14px; /* Desktop: 14px (text-sm) */
+  }
 }
