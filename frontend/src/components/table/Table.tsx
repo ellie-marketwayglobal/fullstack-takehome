@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useMemo } from "react";
 import {
   createColumnHelper,
   flexRender,
@@ -48,7 +48,11 @@ const columns = [
   }),
 ];
 
-const TableContent = memo(() => {
+type TableContentProps = {
+  searchValue: string;
+};
+
+const TableContent = memo(({ searchValue }: TableContentProps) => {
   const {
     data: usersData,
     loading,
@@ -59,7 +63,20 @@ const TableContent = memo(() => {
     },
   });
 
-  const data: GetUsersQuery["users"] = usersData?.users ?? [];
+  const allUsers: GetUsersQuery["users"] = usersData?.users ?? [];
+
+  // Client-side case-insensitive filtering based on name, email, or phone
+  const data = useMemo(() => {
+    if (!searchValue.trim()) return allUsers;
+
+    const searchLower = searchValue.toLowerCase().trim();
+    return allUsers.filter(
+      (user) =>
+        user.name?.toLowerCase().includes(searchLower) ||
+        user.email?.toLowerCase().includes(searchLower) ||
+        user.phone?.toLowerCase().includes(searchLower)
+    );
+  }, [allUsers, searchValue]);
 
   const table = useReactTable({
     data,
@@ -117,7 +134,7 @@ const TableContent = memo(() => {
             </tr>
           ))}
         </tbody>
-        <tfoot className="bg-gray-50 border-t-2 border-pacific">
+        <tfoot>
           {table.getFooterGroups().map((footerGroup) => (
             <tr key={footerGroup.id}>
               {footerGroup.headers.map((header) => (
@@ -147,7 +164,7 @@ export const Table = () => {
   return (
     <div className="p-6 max-w-5xl mx-auto space-y-4">
       <TableFilters searchValue={searchValue} setSearchValue={setSearchValue} />
-      <TableContent />
+      <TableContent searchValue={searchValue} />
     </div>
   );
 };
