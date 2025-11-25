@@ -8,7 +8,7 @@ export const GenericCell = ({ value }: GenericCellProps) => {
       return <span className="text-gray-400">-</span>
     }
 
-    // Handle dates (ISO string format)
+    // Handle dates (string format)
     if (typeof value === 'string' && !isNaN(Date.parse(value))) {
       return <span>{new Date(value).toLocaleDateString()}</span>
     }
